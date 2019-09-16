@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.12.0.xsd">
+    <!-- Configure the database connection here -->
+    <jdbc>
+        <driver>com.mysql.cj.jdbc.Driver</driver>
+        <url>jdbc:mysql://localhost:3306/money_transfer_ms?serverTimezone=UTC</url>
+        <user>revolut</user>
+        <password>r3volut!</password>
+    </jdbc>
+
+    <generator>
+        <name>org.jooq.codegen.JavaGenerator</name>
+        <database>
+            <name>org.jooq.meta.mysql.MySQLDatabase</name>
+            <includes>.*</includes>
+            <inputSchema>money_transfer_ms</inputSchema>
+            <outputSchemaToDefault>true</outputSchemaToDefault>
+        </database>
+        <target>
+            <packageName>com.revolut.test.backend.ricardofuzeto.database</packageName>
+            <directory>src/main/java</directory>
+        </target>
+        <generate>
+            <daos>true</daos>
+        </generate>
+    </generator>
+</configuration>

@@ -11,6 +11,7 @@ public class GsonConfiguration {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(UInteger.class, new UIntegerTypeAdapter());
         builder.setPrettyPrinting();
+        builder.disableHtmlEscaping();
         GSON = builder.create();
     }
 }

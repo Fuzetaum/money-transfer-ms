@@ -7,6 +7,7 @@ import com.revolut.test.backend.ricardofuzeto.database.tables.pojos.PendingWithd
 import com.revolut.test.backend.ricardofuzeto.database.tables.pojos.Transfer;
 import com.revolut.test.backend.ricardofuzeto.database.tables.pojos.TransferAttempt;
 import com.revolut.test.backend.ricardofuzeto.gateway.AccountWSGateway;
+import com.revolut.test.backend.ricardofuzeto.model.ResponsePojo;
 import com.revolut.test.backend.ricardofuzeto.model.TransferRequestPojo;
 import com.revolut.test.backend.ricardofuzeto.model.TransferResult;
 import com.revolut.test.backend.ricardofuzeto.utils.RequestUtils;
@@ -27,11 +28,11 @@ public class TransferService {
             TransferRequestPojo transferRequest = (TransferRequestPojo) RequestUtils.fromJson(ctx.body(), TransferRequestPojo.class);
             if (!AccountWSGateway.isAccountActive(transferRequest.getSender())) {
                 ctx.status(404);
-                return RequestErrorResponse.REQUEST_ERROR_SENDER_INVALID();
+                return ResponsePojo.REQUEST_ERROR_SENDER_INVALID();
             }
             if (!AccountWSGateway.isAccountActive(transferRequest.getReceiver())) {
                 ctx.status(404);
-                return RequestErrorResponse.REQUEST_ERROR_RECEIVER_INVALID();
+                return ResponsePojo.REQUEST_ERROR_RECEIVER_INVALID();
             }
 
             Transfer transfer = processTransfer(transferRequest);

@@ -1,12 +1,11 @@
 package com.revolut.test.backend.ricardofuzeto.job;
 
 import com.revolut.test.backend.ricardofuzeto.configuration.JooqConfiguration;
-import com.revolut.test.backend.ricardofuzeto.database.tables.PendingWithdraw;
 import com.revolut.test.backend.ricardofuzeto.database.tables.pojos.Transfer;
 import com.revolut.test.backend.ricardofuzeto.database.tables.pojos.TransferAttempt;
+import com.revolut.test.backend.ricardofuzeto.model.ResponsePojo;
 import com.revolut.test.backend.ricardofuzeto.model.TransferResult;
 import com.revolut.test.backend.ricardofuzeto.service.JavalinApp;
-import com.revolut.test.backend.ricardofuzeto.service.RequestErrorResponse;
 import com.revolut.test.backend.ricardofuzeto.service.TransferService;
 import org.jooq.types.UInteger;
 import org.slf4j.Logger;
@@ -35,7 +34,7 @@ public class RetryWithdrawJob {
             idList.forEach(id ->
                 tryWithdraw(JooqConfiguration.getTransferDao().fetchOneById(id)));
             LOGGER.info("Job execution ended");
-            return new RequestErrorResponse("" + idList.size(), "Withdraws reattempted: " + idList.size());
+            return new ResponsePojo("" + idList.size(), "Withdraws reattempted: " + idList.size());
         });
     }
 

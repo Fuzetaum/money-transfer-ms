@@ -2,7 +2,7 @@ package com.revolut.test.backend.ricardofuzeto.gateway;
 
 import com.revolut.test.backend.ricardofuzeto.configuration.Environment;
 import com.revolut.test.backend.ricardofuzeto.model.Account;
-import com.revolut.test.backend.ricardofuzeto.service.RequestErrorResponse;
+import com.revolut.test.backend.ricardofuzeto.model.ResponsePojo;
 import com.revolut.test.backend.ricardofuzeto.utils.RequestUtils;
 import org.jooq.types.UInteger;
 import org.slf4j.Logger;
@@ -80,8 +80,7 @@ public class AccountWSGateway {
                     content.append(inputLine);
                 }
                 in.close();
-                RequestErrorResponse response = (RequestErrorResponse) RequestUtils.fromJson(content.toString(),
-                        RequestErrorResponse.class);
+                ResponsePojo response = (ResponsePojo) RequestUtils.fromJson(content.toString(), ResponsePojo.class);
                 LOGGER.info("Response: " + response.toString());
                 result = true;
             }
@@ -118,8 +117,8 @@ public class AccountWSGateway {
                     content.append(inputLine);
                 }
                 in.close();
-                RequestErrorResponse response = (RequestErrorResponse) RequestUtils.fromJson(content.toString(),
-                        RequestErrorResponse.class);
+                ResponsePojo response = (ResponsePojo) RequestUtils.fromJson(content.toString(),
+                        ResponsePojo.class);
                 LOGGER.info("Response: " + response.toString());
                 result = true;
             }

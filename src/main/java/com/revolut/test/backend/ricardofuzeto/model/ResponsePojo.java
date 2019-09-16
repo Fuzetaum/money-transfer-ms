@@ -1,21 +1,21 @@
-package com.revolut.test.backend.ricardofuzeto.service;
+package com.revolut.test.backend.ricardofuzeto.model;
 
-public class RequestErrorResponse {
+public class ResponsePojo {
     private String developerMessage;
     private String userMessage;
 
-    public RequestErrorResponse(String developerMessage, String userMessage) {
+    public ResponsePojo(String developerMessage, String userMessage) {
         this.developerMessage = developerMessage;
         this.userMessage = userMessage;
     }
 
-    public static RequestErrorResponse REQUEST_ERROR_SENDER_INVALID() {
-        return new RequestErrorResponse("Sender ID was not validated by Account WS",
+    public static ResponsePojo REQUEST_ERROR_SENDER_INVALID() {
+        return new ResponsePojo("Sender ID was not validated by Account WS",
                 "Sender account was not found or is not active anymore. Please, check sender's account data");
     }
 
-    public static RequestErrorResponse REQUEST_ERROR_RECEIVER_INVALID() {
-        return new RequestErrorResponse("Receiver ID was not validated by Account WS",
+    public static ResponsePojo REQUEST_ERROR_RECEIVER_INVALID() {
+        return new ResponsePojo("Receiver ID was not validated by Account WS",
                 "Receiver account was not found or is not active anymore. Please, check receiver's account data");
     }
 
@@ -37,7 +37,7 @@ public class RequestErrorResponse {
 
     @Override
     public String toString() {
-        return "RequestErrorResponse{" +
+        return "ResponsePojo{" +
                 "developerMessage='" + developerMessage + '\'' +
                 ", userMessage='" + userMessage + '\'' +
                 '}';

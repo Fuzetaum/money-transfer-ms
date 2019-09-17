@@ -1,16 +1,35 @@
 version: "3.7"
 services:
   web:
+    environment:
+      DATABASE_PASSWORD: "r3volut!"
+      DATABASE_PORT: "3306"
+      DATABASE_SCHEMA: "money_transfer_ms"
+      DATABASE_URL: "mysql"
+      DATABASE_USERNAME: "revolut"
+      PORT: "8080"
+      TRANSFER_MAX_RETRIES: "10"
     container_name: money-transfer-ms
     build: .
     ports:
-      - ${PORT}:${PORT}
+      - "8080:8080"
+    expose:
+      - "8080"
     depends_on:
       - mysql
   mysql:
     container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "money_transfer_ms"
+      MYSQL_USER: "revolut"
+      MYSQL_PASSWORD: "r3volut!"
     image: mysql:8.0.17
     volumes:
-      - /data/db
+      - db-data:/var/lib/mysql
     ports:
-      - ${DATABASE_PORT}:${DATABASE_PORT}
+      - "3306:3306"
+    expose:
+      - "3306"
+volumes:
+  db-data:

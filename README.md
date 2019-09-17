@@ -12,26 +12,62 @@ In order to successfully run the web service, set the following environment vari
 * DATABASE_URL: MySQL instance URL;
 * DATABASE_USERNAME: username used to connect to MySQL;
 * PORT: port the application will listen to;
-
-> Note: if you're running the application as a Docker container, the following variables are unnecessary:
+* TRANSFER_MAX_RETRIES: maximum amount of retries allowed for new transfer requests;
 
 # Technology stack
 
-Javalin - web service boot (uses Tomcat "under the hood")
+[Docker](https://www.docker.com/) - modeling of application as a container, composition with MySQL container
 
-jOOQ - ORM
+[Flyway](https://flywaydb.org/) - database versioning and migration
 
-MySQL database
+[GSON](https://github.com/google/gson) - parsing of request and response bodies
 
-Docker - modeling of application as a container, composition with MySQL container
+[Java](https://www.oracle.com/technetwork/java/javase/downloads/jdk12-downloads-5295953.html) - programming language (JDK 12)
+
+[Javalin](https://javalin.io/) - web service boot (uses Tomcat "under the hood")
+
+[jOOQ](https://www.jooq.org/) - ORM
+
+[Maven](https://maven.apache.org/) - dependency and application management
+
+[MySQL](https://www.mysql.com/) - SQL database
+
+[SLF4J](https://www.slf4j.org/) - information logging
+
+# Running the application
+
+## Maven
+
+> NOTE: to run the application via this method, be sure to have all environment variables properly configured. Also, you will need a MySQL server instance running, as well as Maven and Java 12 properly installed and configured for CLI.
+
+To run the application via Maven, just open a shell at the application folder's root, and run the command `mvn clean package`. This will generate a file `test.backend.ricardofuzeto-0.1.0.jar` inside the `target` folder.
+
+Navigate to that folder and run the command `java -jar test.backend.ricardofuzeto-0.1.0.jar`, and the application will boot.
+
+## Docker
+
+> NOTE: to run the application via this method, it is needed only to configure the environment variable TRANSFER_MAX_RETRIES. You can use your Docker interface of choice.
+
+To run the application as a Docker container, use your Docker interface to navigate to the application folder's root, and run both commands `docker-compose build` and `docker-compose up`. These will build the needed images for the application, and start both application and MySQL images.
 
 # Assumptions
 
-The following list contains all assumptions that outline the scope of this project:
+The following list contains all assumptions regarding the application's requirements and scope:
 
 * This is a microservice, part of a web service's ecosystem;
-* There is another microservice, that handles management of bank accounts. So, this microservice doesn't need to deal with bank accounts' CRUD operations;
-* This microservice will only handle transferences between bank accounts;
+* There is another microservice, that handles management of bank accounts. So, this microservice won't have to store and manage data regarding identification of bank accounts, neither their balances (each microservice shall have a very well defined responsibility and purpose);
+* This microservice will only handle the logic behind transfering sums of money between two bank accounts - there will be a microservice that handles withdraws and deposits;
+
+The application was designed to run inside a [Kubernetes](https://kubernetes.io/) orchestrated pod. Kubernetes is a complete microservice orchestration toolset, augmenting management and leveraging functionalities to better standards. The following list describes why Kubernetes was considered, outlining the benefits of this choice:
+
+* Performs load balancing between instances of the same application by itself, being easily configured to do so. This way, the application don't have to be designed to handle load balancing;
+* Ability to scale applications up and down, depending on the load. This way, it can be configured to scale applications automatically and faster, creating or dropping instances as needed;
+* Each Kubernetes pod is just a Docker container, allowing applications to be created and composed with Docker while still compatible with running environment;
+* Cron jobs allow the creation of scheduled jobs in an application without having to programatically create them, delegating such trigger to the environment. This allows a job trigger configuration to be changed without a redeploy of an application;
+* Networks can be configured so pods may have special sets of allowed connections, thus improving the environment's security;
+* It is possible to use Kubernetes REST API to implement service discovery, although complex to achieve.
+
+* This application will be designed to run inside a [Kubernetes](https://kubernetes.io/) orchestrated pod;
 
 # Job configuration
 

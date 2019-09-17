@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  web:
+    container_name: money-transfer-ms
+    build: .
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - mysql
+  mysql:
+    container_name: mysql
+    image: mysql:8.0.17
+    volumes:
+      - /data/db
+    ports:
+      - ${DATABASE_PORT}:${DATABASE_PORT}

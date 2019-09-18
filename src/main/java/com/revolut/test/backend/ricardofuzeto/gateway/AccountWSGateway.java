@@ -1,7 +1,7 @@
 package com.revolut.test.backend.ricardofuzeto.gateway;
 
 import com.revolut.test.backend.ricardofuzeto.configuration.Environment;
-import com.revolut.test.backend.ricardofuzeto.model.Account;
+import com.revolut.test.backend.ricardofuzeto.model.AccountPojo;
 import com.revolut.test.backend.ricardofuzeto.model.ResponsePojo;
 import com.revolut.test.backend.ricardofuzeto.utils.RequestUtils;
 import org.jooq.types.UInteger;
@@ -43,7 +43,7 @@ public class AccountWSGateway {
                     content.append(inputLine);
                 }
                 in.close();
-                Account account = (Account) RequestUtils.fromJson(content.toString(), Account.class);
+                AccountPojo account = (AccountPojo) RequestUtils.fromJson(content.toString(), AccountPojo.class);
                 LOGGER.info("Account data: " + account.toString());
                 result = true;
             }

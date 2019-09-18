@@ -2,13 +2,13 @@ package com.revolut.test.backend.ricardofuzeto.model;
 
 import org.jooq.types.UInteger;
 
-public class Account {
+public class AccountPojo {
     private String id;
     private String owner;
     private UInteger balance;
     private String currency;
 
-    public Account(String id, String owner, UInteger balance, String currency) {
+    public AccountPojo(String id, String owner, UInteger balance, String currency) {
         this.id = id;
         this.owner = owner;
         this.balance = balance;

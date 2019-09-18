@@ -27,7 +27,7 @@ public class JavalinApp {
             ctx.result(RequestUtils.toJson(returnValue, returnValue.getClass()));
         });
     }
-    static void post(String path, JavalinServiceWrapper lambda) {
+    public static void post(String path, JavalinServiceWrapper lambda) {
         LOGGER.info("endpoint mapped: POST " + path);
         APP.post(path, ctx -> {
             LOGGER.info("request received: POST " + ctx.req.getPathInfo());

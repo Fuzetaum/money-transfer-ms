@@ -29,7 +29,7 @@ import org.jooq.types.UInteger;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TransferRecord extends UpdatableRecordImpl<TransferRecord> implements Record7<String, String, String, UInteger, String, String, Integer> {
 
-    private static final long serialVersionUID = 646586771;
+    private static final long serialVersionUID = -1049052986;
 
     /**
      * Setter for <code>transfer.id</code>.
@@ -116,16 +116,16 @@ public class TransferRecord extends UpdatableRecordImpl<TransferRecord> implemen
     }
 
     /**
-     * Setter for <code>transfer.retriesLeft</code>.
+     * Setter for <code>transfer.retries_left</code>.
      */
-    public void setRetriesleft(Integer value) {
+    public void setRetriesLeft(Integer value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>transfer.retriesLeft</code>.
+     * Getter for <code>transfer.retries_left</code>.
      */
-    public Integer getRetriesleft() {
+    public Integer getRetriesLeft() {
         return (Integer) get(6);
     }
 
@@ -184,7 +184,7 @@ public class TransferRecord extends UpdatableRecordImpl<TransferRecord> implemen
 
     @Override
     public Field<Integer> field7() {
-        return Transfer.TRANSFER.RETRIESLEFT;
+        return Transfer.TRANSFER.RETRIES_LEFT;
     }
 
     @Override
@@ -219,7 +219,7 @@ public class TransferRecord extends UpdatableRecordImpl<TransferRecord> implemen
 
     @Override
     public Integer component7() {
-        return getRetriesleft();
+        return getRetriesLeft();
     }
 
     @Override
@@ -254,7 +254,7 @@ public class TransferRecord extends UpdatableRecordImpl<TransferRecord> implemen
 
     @Override
     public Integer value7() {
-        return getRetriesleft();
+        return getRetriesLeft();
     }
 
     @Override
@@ -295,7 +295,7 @@ public class TransferRecord extends UpdatableRecordImpl<TransferRecord> implemen
 
     @Override
     public TransferRecord value7(Integer value) {
-        setRetriesleft(value);
+        setRetriesLeft(value);
         return this;
     }
 
@@ -325,7 +325,7 @@ public class TransferRecord extends UpdatableRecordImpl<TransferRecord> implemen
     /**
      * Create a detached, initialised TransferRecord
      */
-    public TransferRecord(String id, String sender, String receiver, UInteger amount, String senderCurrency, String receiverCurrency, Integer retriesleft) {
+    public TransferRecord(String id, String sender, String receiver, UInteger amount, String senderCurrency, String receiverCurrency, Integer retriesLeft) {
         super(Transfer.TRANSFER);
 
         set(0, id);
@@ -334,6 +334,6 @@ public class TransferRecord extends UpdatableRecordImpl<TransferRecord> implemen
         set(3, amount);
         set(4, senderCurrency);
         set(5, receiverCurrency);
-        set(6, retriesleft);
+        set(6, retriesLeft);
     }
 }

@@ -25,7 +25,7 @@ public class RefundFailedWithdrawJob {
             List<Transfer> failedWithdrawList = JooqConfiguration.getDslContext()
                     .select()
                     .from(TRANSFER)
-                    .where(TRANSFER.RETRIESLEFT.eq(0))
+                    .where(TRANSFER.RETRIES_LEFT.eq(0))
                     .fetchInto(Transfer.class);
             JobResponsePojo jobResponsePojo = new JobResponsePojo(failedWithdrawList.size(), 0);
             failedWithdrawList.forEach(failedWithdraw -> {

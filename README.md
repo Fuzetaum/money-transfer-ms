@@ -67,7 +67,7 @@ The application was designed to run inside a [Kubernetes](https://kubernetes.io/
 * Networks can be configured so pods may have special sets of allowed connections, thus improving the environment's security;
 * It is possible to use Kubernetes REST API to implement service discovery, although complex to achieve.
 
-* This application will be designed to run inside a [Kubernetes](https://kubernetes.io/) orchestrated pod;
+Although the use of Kubernetes makes the setup and management of the running environment much more complex, it allows web services to be developed with much simpler designs, and to extract from them as much automated tasks as possible. Thus, for the sake of development, considering Kubernetes as available makes the development effort much lower.
 
 # Job configuration
 
@@ -102,3 +102,7 @@ spec:
 ```
 
 This application expects that the Kubernetes environment has cron jobs configured for all periodic tasks needed. This way, it's possible not only to oversee and manage jobs execution, but also to trigger them manually if needed by just sending a request to the job's endpoint.
+
+Also, it's considered that it's possible to, at cron job level, count how many replicas of the same container are being executed. Since This application will have many `jar` container replicas running but only one MySQL container replica, it is best to use any resources available to handle concurrency between job executions, as well as attempting to distribute a job's work load among all replicas. To do so, the same cron job that will trigger job execution can also provide, in the request body, the current amount of replicas acknowledged by Kubernetes along with the instance index of each running instance.
+
+This modeling leverages our jobs to a new level, where the running environment manages each job execution by itself, telling each microservice's running instance how exactly it should run its job instance. It also allows us to fully manage a job's execution, by keeping a job's trigger outside the application and being able to reconfigure it without the need of a redeploy.

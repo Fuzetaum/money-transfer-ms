@@ -42,7 +42,7 @@ import org.jooq.types.UInteger;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Transfer extends TableImpl<TransferRecord> {
 
-    private static final long serialVersionUID = -491697363;
+    private static final long serialVersionUID = 452220386;
 
     /**
      * The reference instance of <code>transfer</code>
@@ -88,9 +88,9 @@ public class Transfer extends TableImpl<TransferRecord> {
     public final TableField<TransferRecord, String> RECEIVER_CURRENCY = createField(DSL.name("receiver_currency"), org.jooq.impl.SQLDataType.CHAR(3).nullable(false), this, "");
 
     /**
-     * The column <code>transfer.retriesLeft</code>.
+     * The column <code>transfer.retries_left</code>.
      */
-    public final TableField<TransferRecord, Integer> RETRIESLEFT = createField(DSL.name("retriesLeft"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<TransferRecord, Integer> RETRIES_LEFT = createField(DSL.name("retries_left"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * Create a <code>transfer</code> table reference

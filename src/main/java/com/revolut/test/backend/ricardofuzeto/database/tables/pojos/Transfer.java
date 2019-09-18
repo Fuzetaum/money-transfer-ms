@@ -24,7 +24,7 @@ import org.jooq.types.UInteger;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Transfer implements Serializable {
 
-    private static final long serialVersionUID = -2028516450;
+    private static final long serialVersionUID = -6988802;
 
     private String   id;
     private String   sender;
@@ -32,7 +32,7 @@ public class Transfer implements Serializable {
     private UInteger amount;
     private String   senderCurrency;
     private String   receiverCurrency;
-    private Integer  retriesleft;
+    private Integer  retriesLeft;
 
     public Transfer() {}
 
@@ -43,7 +43,7 @@ public class Transfer implements Serializable {
         this.amount = value.amount;
         this.senderCurrency = value.senderCurrency;
         this.receiverCurrency = value.receiverCurrency;
-        this.retriesleft = value.retriesleft;
+        this.retriesLeft = value.retriesLeft;
     }
 
     public Transfer(
@@ -53,7 +53,7 @@ public class Transfer implements Serializable {
         UInteger amount,
         String   senderCurrency,
         String   receiverCurrency,
-        Integer  retriesleft
+        Integer  retriesLeft
     ) {
         this.id = id;
         this.sender = sender;
@@ -61,7 +61,7 @@ public class Transfer implements Serializable {
         this.amount = amount;
         this.senderCurrency = senderCurrency;
         this.receiverCurrency = receiverCurrency;
-        this.retriesleft = retriesleft;
+        this.retriesLeft = retriesLeft;
     }
 
     public String getId() {
@@ -112,12 +112,12 @@ public class Transfer implements Serializable {
         this.receiverCurrency = receiverCurrency;
     }
 
-    public Integer getRetriesleft() {
-        return this.retriesleft;
+    public Integer getRetriesLeft() {
+        return this.retriesLeft;
     }
 
-    public void setRetriesleft(Integer retriesleft) {
-        this.retriesleft = retriesleft;
+    public void setRetriesLeft(Integer retriesLeft) {
+        this.retriesLeft = retriesLeft;
     }
 
     @Override
@@ -130,7 +130,7 @@ public class Transfer implements Serializable {
         sb.append(", ").append(amount);
         sb.append(", ").append(senderCurrency);
         sb.append(", ").append(receiverCurrency);
-        sb.append(", ").append(retriesleft);
+        sb.append(", ").append(retriesLeft);
 
         sb.append(")");
         return sb.toString();

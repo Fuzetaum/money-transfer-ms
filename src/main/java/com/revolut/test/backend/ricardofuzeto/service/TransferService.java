@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class TransferService {
@@ -49,7 +48,7 @@ public class TransferService {
             LOGGER.info("Transfer processing failed: ID " + transfer.getId());
             LOGGER.info("Reason: could not withdraw amount from sender account");
             Transfer newTransfer = new Transfer(transfer);
-            newTransfer.setRetriesleft(transfer.getRetriesleft() - 1);
+            newTransfer.setRetriesLeft(transfer.getRetriesLeft() - 1);
             JooqConfiguration.getTransferDao()
                     .update(newTransfer);
             JooqConfiguration.getTransferAttemptDao()
@@ -65,7 +64,7 @@ public class TransferService {
             LOGGER.info("Transfer processing failed: ID " + transfer.getId());
             LOGGER.info("Reason: could not deposit amount to receiver account");
             Transfer newTransfer = new Transfer(transfer);
-            newTransfer.setRetriesleft(transfer.getRetriesleft() - 1);
+            newTransfer.setRetriesLeft(transfer.getRetriesLeft() - 1);
             JooqConfiguration.getTransferDao()
                     .update(newTransfer);
             JooqConfiguration.getTransferAttemptDao()
@@ -94,7 +93,7 @@ public class TransferService {
             return null;
         }
 
-        transfer.setRetriesleft(0);
+        transfer.setRetriesLeft(0);
         JooqConfiguration.getTransferDao().update(transfer);
         TransferAttempt attempt = new TransferAttempt(transfer.getId(), Timestamp.valueOf(LocalDateTime.now()),
                 UInteger.valueOf(TransferResult.SUCCESS.code));

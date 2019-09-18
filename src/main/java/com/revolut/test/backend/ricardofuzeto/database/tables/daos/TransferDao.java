@@ -140,16 +140,16 @@ public class TransferDao extends DAOImpl<TransferRecord, com.revolut.test.backen
     }
 
     /**
-     * Fetch records that have <code>retriesLeft BETWEEN lowerInclusive AND upperInclusive</code>
+     * Fetch records that have <code>retries_left BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.revolut.test.backend.ricardofuzeto.database.tables.pojos.Transfer> fetchRangeOfRetriesleft(Integer lowerInclusive, Integer upperInclusive) {
-        return fetchRange(Transfer.TRANSFER.RETRIESLEFT, lowerInclusive, upperInclusive);
+    public List<com.revolut.test.backend.ricardofuzeto.database.tables.pojos.Transfer> fetchRangeOfRetriesLeft(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(Transfer.TRANSFER.RETRIES_LEFT, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>retriesLeft IN (values)</code>
+     * Fetch records that have <code>retries_left IN (values)</code>
      */
-    public List<com.revolut.test.backend.ricardofuzeto.database.tables.pojos.Transfer> fetchByRetriesleft(Integer... values) {
-        return fetch(Transfer.TRANSFER.RETRIESLEFT, values);
+    public List<com.revolut.test.backend.ricardofuzeto.database.tables.pojos.Transfer> fetchByRetriesLeft(Integer... values) {
+        return fetch(Transfer.TRANSFER.RETRIES_LEFT, values);
     }
 }

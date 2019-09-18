@@ -1,8 +1,9 @@
-package com.revolut.test.backend.ricardofuzeto.utils;
+package com.revolut.test.backend.ricardofuzeto.unit.utils;
 
 import com.google.gson.JsonSyntaxException;
 import com.revolut.test.backend.ricardofuzeto.configuration.gson.GsonConfiguration;
 import com.revolut.test.backend.ricardofuzeto.model.AccountPojo;
+import com.revolut.test.backend.ricardofuzeto.utils.RequestUtils;
 import org.jooq.types.UInteger;
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -25,11 +25,20 @@ public class TransferService {
     public static void registerTransfer(String path) {
         JavalinApp.post(path, ctx -> {
             TransferRequestPojo transferRequest = (TransferRequestPojo) RequestUtils.fromJson(ctx.body(), TransferRequestPojo.class);
+            if (transferRequest.getSendercurrency().equals(transferRequest.getReceivercurrency())) {
+                LOGGER.warn("transfer can't be processed: sender and receiver currencies are different");
+                LOGGER.warn("transfers between accounts with different currencies is nt yet supported");
+                ctx.status(404);
+                return ResponsePojo.REQUEST_ERROR_DIFFERENT_CURRENCIES();
+            }
+
             if (!AccountWSGateway.isAccountActive(transferRequest.getSender())) {
+                LOGGER.warn("transfer can't be processed: sender ID does not match a valid account");
                 ctx.status(404);
                 return ResponsePojo.REQUEST_ERROR_SENDER_INVALID();
             }
             if (!AccountWSGateway.isAccountActive(transferRequest.getReceiver())) {
+                LOGGER.warn("transfer can't be processed: receiver ID does not match a valid account");
                 ctx.status(404);
                 return ResponsePojo.REQUEST_ERROR_RECEIVER_INVALID();
             }

@@ -65,6 +65,7 @@ public class RetryWithdrawJob {
         LOGGER.info("Amount withdrawn successfully: account ID " + transfer.getSender() + ", amount " + transfer.getAmount()
                 + transfer.getSenderCurrency());
         JooqConfiguration.getPendingWithdrawDao().deleteById(transfer.getId());
-        RetryDepositJob.tryDeposit(transfer);
+//        RetryDepositJob.tryDeposit(transfer);
+        TransferService.processReceiverDeposit(transfer);
     }
 }

@@ -49,7 +49,7 @@ public class RetryDepositJob {
         });
     }
 
-    static void tryDeposit(Transfer transfer) {
+    private static void tryDeposit(Transfer transfer) {
         boolean result = TransferService.processReceiverDeposit(transfer);
         Transfer updatedTransfer = new Transfer(transfer);
         if (!result) {

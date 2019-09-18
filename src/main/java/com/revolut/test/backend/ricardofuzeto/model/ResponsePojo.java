@@ -19,6 +19,11 @@ public class ResponsePojo {
                 "Receiver account was not found or is not active anymore. Please, check receiver's account data");
     }
 
+    public static ResponsePojo REQUEST_ERROR_DIFFERENT_CURRENCIES() {
+        return new ResponsePojo("Sender and receiver accounts' currencies do not match",
+                "Sender and receiver accounts' currencies are not the same. This support is not yet provided");
+    }
+
     public String getDeveloperMessage() {
         return developerMessage;
     }

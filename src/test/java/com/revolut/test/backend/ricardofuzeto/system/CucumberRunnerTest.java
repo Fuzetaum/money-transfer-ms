@@ -6,8 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-    dryRun=true,
-    features="src/test/resources/features",
+    features="classpath:features/",
     glue="com.revolut.test.backend.ricardofuzeto.system.step",
     plugin={"pretty", "html:target/cucumber"}
 )

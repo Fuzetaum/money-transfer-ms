@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+import static com.revolut.test.backend.ricardofuzeto.database.Tables.PENDING_DEPOSIT;
 import static com.revolut.test.backend.ricardofuzeto.database.Tables.TRANSFER;
 
 public class RefundFailedWithdrawJob {
@@ -25,6 +26,7 @@ public class RefundFailedWithdrawJob {
             List<Transfer> failedWithdrawList = JooqConfiguration.getDslContext()
                     .select()
                     .from(TRANSFER)
+                    .innerJoin(PENDING_DEPOSIT).on(TRANSFER.ID.eq(PENDING_DEPOSIT.ID))
                     .where(TRANSFER.RETRIES_LEFT.eq(0))
                     .fetchInto(Transfer.class);
             JobResponsePojo jobResponsePojo = new JobResponsePojo(failedWithdrawList.size(), 0);
@@ -33,7 +35,6 @@ public class RefundFailedWithdrawJob {
                     jobResponsePojo.setChangedCount(jobResponsePojo.getChangedCount() + 1);
                 }
             });
-            LOGGER.info("Job execution ended");
             String developerMessage = String.format(REFUND_DEVELOPER_MESSAGE,
                     jobResponsePojo.getTotalCount(),
                     jobResponsePojo.getChangedCount(),
@@ -42,6 +43,7 @@ public class RefundFailedWithdrawJob {
                     jobResponsePojo.getChangedCount(),
                     jobResponsePojo.getNotChangedCount(),
                     jobResponsePojo.getTotalCount());
+            LOGGER.info("Job execution ended");
             return new ResponsePojo(developerMessage, userMessage);
         });
     }

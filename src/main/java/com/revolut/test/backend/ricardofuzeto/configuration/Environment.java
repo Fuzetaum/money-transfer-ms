@@ -36,4 +36,8 @@ public class Environment {
         JooqConfiguration.configure();
         GsonConfiguration.configure();
     }
+
+    static void setEnvironmentVariable(String name, String value) {
+        ENVIRONMENT_VARIABLES.put(name, value);
+    }
 }

@@ -69,6 +69,12 @@ The application was designed to run inside a [Kubernetes](https://kubernetes.io/
 
 Although the use of Kubernetes makes the setup and management of the running environment much more complex, it allows web services to be developed with much simpler designs, and to extract from them as much automated tasks as possible. Thus, for the sake of development, considering Kubernetes as available makes the development effort much lower.
 
+## Application-level concurrency solutions
+
+Although the assumptions above outline the solution for concurrency problems while minimizing the amount of lines of code needed to write, there are solutions that can be applied at application level. The known ones are:
+
+* Read/Write model microservices: the deployment of microservices that have exclusive access to database read and write operations are a great solution for concurrency problems, while read/write operations can be synchronized and ordered, thus avoiding thread racing problems. However, this demands the development of at least one other microservice, which is responsible only for communicating with the database. It's really simple to build, however is another application to maintain, and troubleshoot if needed.
+
 # Job configuration
 
 According to the assumptions listed above, this application is expected to run inside a Kubernetes environment. This means that all Kubernetes features are available to use. To bring all jobs' configuration to a new level, it was considered the use of [cron jobs](https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/).

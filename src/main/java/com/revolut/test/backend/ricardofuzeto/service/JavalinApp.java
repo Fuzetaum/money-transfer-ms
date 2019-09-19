@@ -3,8 +3,6 @@ package com.revolut.test.backend.ricardofuzeto.service;
 import com.revolut.test.backend.ricardofuzeto.configuration.Environment;
 import com.revolut.test.backend.ricardofuzeto.utils.RequestUtils;
 import io.javalin.Javalin;
-import io.javalin.http.Context;
-import io.javalin.http.Handler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

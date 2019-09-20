@@ -2,34 +2,38 @@ version: "3.7"
 services:
   web:
     environment:
-      DATABASE_PASSWORD: "r3volut!"
-      DATABASE_PORT: "3306"
-      DATABASE_SCHEMA: "money_transfer_ms"
-      DATABASE_URL: "mysql"
-      DATABASE_USERNAME: "revolut"
-      PORT: "8080"
-      TRANSFER_MAX_RETRIES: "10"
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD:-r3volut!}
+      - DATABASE_PORT=${DATABASE_PORT:-3306}
+      - DATABASE_SCHEMA=${DATABASE_SCHEMA:-money_transfer_ms}
+      - DATABASE_URL=mysql
+      - DATABASE_USERNAME=${DATABASE_USERNAME:-revolut}
+      - PORT=${PORT:-8080}
+      - TRANSFER_MAX_RETRIES=${TRANSFER_MAX_RETRIES:-10}
     container_name: money-transfer-ms
     build: .
     ports:
-      - "8080:8080"
+      - "${PORT:-8080}:${PORT:-8080}"
     expose:
-      - "8080"
+      - "${PORT:-8080}"
     depends_on:
       - mysql
   mysql:
     container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: "root"
-      MYSQL_DATABASE: "money_transfer_ms"
-      MYSQL_USER: "revolut"
-      MYSQL_PASSWORD: "r3volut!"
+      MYSQL_DATABASE: "${DATABASE_SCHEMA:-money_transfer_ms}"
+      MYSQL_USER: "${DATABASE_USERNAME:-revolut}"
+      MYSQL_PASSWORD: "${DATABASE_PASSWORD:-r3volut!}"
     image: mysql:8.0.17
     volumes:
       - db-data:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "${DATABASE_PORT:-3306}:${DATABASE_PORT:-3306}"
     expose:
-      - "3306"
+      - "${DATABASE_PORT:-3306}"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 2s
+      retries: 10
 volumes:
   db-data:

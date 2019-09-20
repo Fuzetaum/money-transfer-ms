@@ -4,7 +4,6 @@
 package com.revolut.test.backend.ricardofuzeto.database;
 
 
-import com.revolut.test.backend.ricardofuzeto.database.tables.FlywaySchemaHistory;
 import com.revolut.test.backend.ricardofuzeto.database.tables.PendingDeposit;
 import com.revolut.test.backend.ricardofuzeto.database.tables.PendingWithdraw;
 import com.revolut.test.backend.ricardofuzeto.database.tables.Transfer;
@@ -25,11 +24,6 @@ import javax.annotation.processing.Generated;
 )
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
-
-    /**
-     * The table <code>flyway_schema_history</code>.
-     */
-    public static final FlywaySchemaHistory FLYWAY_SCHEMA_HISTORY = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY;
 
     /**
      * The table <code>pending_deposit</code>.

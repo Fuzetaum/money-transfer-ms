@@ -2,7 +2,6 @@ package com.revolut.test.backend.ricardofuzeto.job;
 
 import com.revolut.test.backend.ricardofuzeto.configuration.JooqConfiguration;
 import com.revolut.test.backend.ricardofuzeto.database.tables.pojos.Transfer;
-import com.revolut.test.backend.ricardofuzeto.database.tables.pojos.TransferAttempt;
 import com.revolut.test.backend.ricardofuzeto.model.JobRequestPojo;
 import com.revolut.test.backend.ricardofuzeto.model.ResponsePojo;
 import com.revolut.test.backend.ricardofuzeto.model.TransferResult;
@@ -19,6 +18,7 @@ import java.util.List;
 
 import static com.revolut.test.backend.ricardofuzeto.database.Tables.PENDING_WITHDRAW;
 import static com.revolut.test.backend.ricardofuzeto.database.Tables.TRANSFER;
+import static com.revolut.test.backend.ricardofuzeto.database.tables.TransferAttempt.TRANSFER_ATTEMPT;
 
 public class RetryWithdrawJob {
     private static final Logger LOGGER = LoggerFactory.getLogger(RetryWithdrawJob.class);
@@ -57,15 +57,17 @@ public class RetryWithdrawJob {
             Transfer updatedTransfer = new Transfer(transfer);
             updatedTransfer.setRetriesLeft(updatedTransfer.getRetriesLeft() - 1);
             JooqConfiguration.getTransferDao().update(transfer);
-            TransferAttempt attempt = new TransferAttempt(transfer.getId(), Timestamp.valueOf(LocalDateTime.now()),
-                    UInteger.valueOf(TransferResult.ERROR_FAILED_WITHDRAW.code));
-            JooqConfiguration.getTransferAttemptDao().insert(attempt);
+            JooqConfiguration.getDslContext()
+                    .insertInto(TRANSFER_ATTEMPT)
+                    .values(null, transfer.getId(), Timestamp.valueOf(LocalDateTime.now()),
+                            UInteger.valueOf(TransferResult.ERROR_FAILED_WITHDRAW.code))
+                    .execute();
+            return;
         }
 
         LOGGER.info("Amount withdrawn successfully: account ID " + transfer.getSender() + ", amount " + transfer.getAmount()
                 + transfer.getSenderCurrency());
         JooqConfiguration.getPendingWithdrawDao().deleteById(transfer.getId());
-//        RetryDepositJob.tryDeposit(transfer);
         TransferService.processReceiverDeposit(transfer);
     }
 }

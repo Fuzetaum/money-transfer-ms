@@ -5,7 +5,6 @@ import com.revolut.test.backend.ricardofuzeto.configuration.JooqConfiguration;
 import com.revolut.test.backend.ricardofuzeto.database.tables.pojos.PendingDeposit;
 import com.revolut.test.backend.ricardofuzeto.database.tables.pojos.PendingWithdraw;
 import com.revolut.test.backend.ricardofuzeto.database.tables.pojos.Transfer;
-import com.revolut.test.backend.ricardofuzeto.database.tables.pojos.TransferAttempt;
 import com.revolut.test.backend.ricardofuzeto.gateway.AccountWSGateway;
 import com.revolut.test.backend.ricardofuzeto.model.ResponsePojo;
 import com.revolut.test.backend.ricardofuzeto.model.TransferRequestPojo;
@@ -19,11 +18,13 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static com.revolut.test.backend.ricardofuzeto.database.tables.TransferAttempt.TRANSFER_ATTEMPT;
+
 public class TransferService {
     private static Logger LOGGER = LoggerFactory.getLogger(TransferService.class);
 
-    public static void registerTransfer(String path) {
-        JavalinApp.post(path, ctx -> {
+    public static void registerTransfer() {
+        JavalinApp.post("/transfer", ctx -> {
             TransferRequestPojo transferRequest = (TransferRequestPojo) RequestUtils.fromJson(ctx.body(), TransferRequestPojo.class);
             if (transferRequest.getSendercurrency().equals(transferRequest.getReceivercurrency())) {
                 LOGGER.warn("transfer can't be processed: sender and receiver currencies are different");
@@ -60,9 +61,11 @@ public class TransferService {
             newTransfer.setRetriesLeft(transfer.getRetriesLeft() - 1);
             JooqConfiguration.getTransferDao()
                     .update(newTransfer);
-            JooqConfiguration.getTransferAttemptDao()
-                    .insert(new TransferAttempt(transfer.getId(), Timestamp.valueOf(LocalDateTime.now()),
-                            UInteger.valueOf(TransferResult.ERROR_FAILED_WITHDRAW.code)));
+            JooqConfiguration.getDslContext()
+                    .insertInto(TRANSFER_ATTEMPT)
+                    .values(null, transfer.getId(), Timestamp.valueOf(LocalDateTime.now()),
+                            UInteger.valueOf(TransferResult.ERROR_FAILED_WITHDRAW.code))
+                    .execute();
         }
         return result;
     }
@@ -76,9 +79,11 @@ public class TransferService {
             newTransfer.setRetriesLeft(transfer.getRetriesLeft() - 1);
             JooqConfiguration.getTransferDao()
                     .update(newTransfer);
-            JooqConfiguration.getTransferAttemptDao()
-                    .insert(new TransferAttempt(transfer.getId(), Timestamp.valueOf(LocalDateTime.now()),
-                            UInteger.valueOf(TransferResult.ERROR_FAILED_DEPOSIT.code)));
+            JooqConfiguration.getDslContext()
+                    .insertInto(TRANSFER_ATTEMPT)
+                    .values(null, transfer.getId(), Timestamp.valueOf(LocalDateTime.now()),
+                            UInteger.valueOf(TransferResult.ERROR_FAILED_DEPOSIT.code))
+                    .execute();
         }
         return result;
     }
@@ -104,9 +109,11 @@ public class TransferService {
 
         transfer.setRetriesLeft(0);
         JooqConfiguration.getTransferDao().update(transfer);
-        TransferAttempt attempt = new TransferAttempt(transfer.getId(), Timestamp.valueOf(LocalDateTime.now()),
-                UInteger.valueOf(TransferResult.SUCCESS.code));
-        JooqConfiguration.getTransferAttemptDao().insert(attempt);
+        JooqConfiguration.getDslContext()
+                .insertInto(TRANSFER_ATTEMPT)
+                .values(null, transfer.getId(), Timestamp.valueOf(LocalDateTime.now()),
+                        UInteger.valueOf(TransferResult.SUCCESS.code))
+                .execute();
         return transfer;
     }
 }

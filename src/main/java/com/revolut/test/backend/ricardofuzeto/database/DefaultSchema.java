@@ -4,7 +4,6 @@
 package com.revolut.test.backend.ricardofuzeto.database;
 
 
-import com.revolut.test.backend.ricardofuzeto.database.tables.FlywaySchemaHistory;
 import com.revolut.test.backend.ricardofuzeto.database.tables.PendingDeposit;
 import com.revolut.test.backend.ricardofuzeto.database.tables.PendingWithdraw;
 import com.revolut.test.backend.ricardofuzeto.database.tables.Transfer;
@@ -34,17 +33,12 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultSchema extends SchemaImpl {
 
-    private static final long serialVersionUID = -300509892;
+    private static final long serialVersionUID = 694220455;
 
     /**
      * The reference instance of <code></code>
      */
     public static final DefaultSchema DEFAULT_SCHEMA = new DefaultSchema();
-
-    /**
-     * The table <code>flyway_schema_history</code>.
-     */
-    public final FlywaySchemaHistory FLYWAY_SCHEMA_HISTORY = com.revolut.test.backend.ricardofuzeto.database.tables.FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY;
 
     /**
      * The table <code>pending_deposit</code>.
@@ -88,7 +82,6 @@ public class DefaultSchema extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
-            FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
             PendingDeposit.PENDING_DEPOSIT,
             PendingWithdraw.PENDING_WITHDRAW,
             Transfer.TRANSFER,

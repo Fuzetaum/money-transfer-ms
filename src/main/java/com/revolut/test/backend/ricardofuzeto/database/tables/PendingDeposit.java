@@ -41,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PendingDeposit extends TableImpl<PendingDepositRecord> {
 
-    private static final long serialVersionUID = 1354707012;
+    private static final long serialVersionUID = -1583577272;
 
     /**
      * The reference instance of <code>pending_deposit</code>
@@ -59,7 +59,7 @@ public class PendingDeposit extends TableImpl<PendingDepositRecord> {
     /**
      * The column <code>pending_deposit.id</code>.
      */
-    public final TableField<PendingDepositRecord, String> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.CHAR(32).nullable(false), this, "");
+    public final TableField<PendingDepositRecord, String> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.CHAR(36).nullable(false), this, "");
 
     /**
      * Create a <code>pending_deposit</code> table reference

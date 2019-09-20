@@ -1,6 +1,6 @@
 @RetryWithdrawJob
 Feature: RetryWithdrawJob
-    Checks if the job for retrying withdraws is correct
+    Checks if the job for retrying withdraws is correct for no pending withdraws
 
     Scenario: Withdraw job with no pending withdrawals
         Given there are no pending withdraws

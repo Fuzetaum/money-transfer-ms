@@ -4,12 +4,10 @@
 package com.revolut.test.backend.ricardofuzeto.database;
 
 
-import com.revolut.test.backend.ricardofuzeto.database.tables.FlywaySchemaHistory;
 import com.revolut.test.backend.ricardofuzeto.database.tables.PendingDeposit;
 import com.revolut.test.backend.ricardofuzeto.database.tables.PendingWithdraw;
 import com.revolut.test.backend.ricardofuzeto.database.tables.Transfer;
 import com.revolut.test.backend.ricardofuzeto.database.tables.TransferAttempt;
-import com.revolut.test.backend.ricardofuzeto.database.tables.records.FlywaySchemaHistoryRecord;
 import com.revolut.test.backend.ricardofuzeto.database.tables.records.PendingDepositRecord;
 import com.revolut.test.backend.ricardofuzeto.database.tables.records.PendingWithdrawRecord;
 import com.revolut.test.backend.ricardofuzeto.database.tables.records.TransferAttemptRecord;
@@ -18,6 +16,7 @@ import com.revolut.test.backend.ricardofuzeto.database.tables.records.TransferRe
 import javax.annotation.processing.Generated;
 
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.UniqueKey;
 import org.jooq.impl.Internal;
 
@@ -40,12 +39,12 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
+    public static final Identity<TransferAttemptRecord, Integer> IDENTITY_TRANSFER_ATTEMPT = Identities0.IDENTITY_TRANSFER_ATTEMPT;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<FlywaySchemaHistoryRecord> KEY_FLYWAY_SCHEMA_HISTORY_PRIMARY = UniqueKeys0.KEY_FLYWAY_SCHEMA_HISTORY_PRIMARY;
     public static final UniqueKey<PendingDepositRecord> KEY_PENDING_DEPOSIT_PRIMARY = UniqueKeys0.KEY_PENDING_DEPOSIT_PRIMARY;
     public static final UniqueKey<PendingWithdrawRecord> KEY_PENDING_WITHDRAW_PRIMARY = UniqueKeys0.KEY_PENDING_WITHDRAW_PRIMARY;
     public static final UniqueKey<TransferRecord> KEY_TRANSFER_PRIMARY = UniqueKeys0.KEY_TRANSFER_PRIMARY;
@@ -63,8 +62,11 @@ public class Keys {
     // [#1459] distribute members to avoid static initialisers > 64kb
     // -------------------------------------------------------------------------
 
+    private static class Identities0 {
+        public static Identity<TransferAttemptRecord, Integer> IDENTITY_TRANSFER_ATTEMPT = Internal.createIdentity(TransferAttempt.TRANSFER_ATTEMPT, TransferAttempt.TRANSFER_ATTEMPT.ID);
+    }
+
     private static class UniqueKeys0 {
-        public static final UniqueKey<FlywaySchemaHistoryRecord> KEY_FLYWAY_SCHEMA_HISTORY_PRIMARY = Internal.createUniqueKey(FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY, "KEY_flyway_schema_history_PRIMARY", FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY.INSTALLED_RANK);
         public static final UniqueKey<PendingDepositRecord> KEY_PENDING_DEPOSIT_PRIMARY = Internal.createUniqueKey(PendingDeposit.PENDING_DEPOSIT, "KEY_pending_deposit_PRIMARY", PendingDeposit.PENDING_DEPOSIT.ID);
         public static final UniqueKey<PendingWithdrawRecord> KEY_PENDING_WITHDRAW_PRIMARY = Internal.createUniqueKey(PendingWithdraw.PENDING_WITHDRAW, "KEY_pending_withdraw_PRIMARY", PendingWithdraw.PENDING_WITHDRAW.ID);
         public static final UniqueKey<TransferRecord> KEY_TRANSFER_PRIMARY = Internal.createUniqueKey(Transfer.TRANSFER, "KEY_transfer_PRIMARY", Transfer.TRANSFER.ID);
@@ -74,6 +76,6 @@ public class Keys {
     private static class ForeignKeys0 {
         public static final ForeignKey<PendingDepositRecord, TransferRecord> PENDING_DEPOSIT_IBFK_1 = Internal.createForeignKey(com.revolut.test.backend.ricardofuzeto.database.Keys.KEY_TRANSFER_PRIMARY, PendingDeposit.PENDING_DEPOSIT, "pending_deposit_ibfk_1", PendingDeposit.PENDING_DEPOSIT.ID);
         public static final ForeignKey<PendingWithdrawRecord, TransferRecord> PENDING_WITHDRAW_IBFK_1 = Internal.createForeignKey(com.revolut.test.backend.ricardofuzeto.database.Keys.KEY_TRANSFER_PRIMARY, PendingWithdraw.PENDING_WITHDRAW, "pending_withdraw_ibfk_1", PendingWithdraw.PENDING_WITHDRAW.ID);
-        public static final ForeignKey<TransferAttemptRecord, TransferRecord> TRANSFER_ATTEMPT_IBFK_1 = Internal.createForeignKey(com.revolut.test.backend.ricardofuzeto.database.Keys.KEY_TRANSFER_PRIMARY, TransferAttempt.TRANSFER_ATTEMPT, "transfer_attempt_ibfk_1", TransferAttempt.TRANSFER_ATTEMPT.ID);
+        public static final ForeignKey<TransferAttemptRecord, TransferRecord> TRANSFER_ATTEMPT_IBFK_1 = Internal.createForeignKey(com.revolut.test.backend.ricardofuzeto.database.Keys.KEY_TRANSFER_PRIMARY, TransferAttempt.TRANSFER_ATTEMPT, "transfer_attempt_ibfk_1", TransferAttempt.TRANSFER_ATTEMPT.TRANSFER_ID);
     }
 }

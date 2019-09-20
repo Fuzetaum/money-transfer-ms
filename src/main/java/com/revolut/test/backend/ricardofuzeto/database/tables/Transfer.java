@@ -42,7 +42,7 @@ import org.jooq.types.UInteger;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Transfer extends TableImpl<TransferRecord> {
 
-    private static final long serialVersionUID = 452220386;
+    private static final long serialVersionUID = 363352422;
 
     /**
      * The reference instance of <code>transfer</code>
@@ -60,17 +60,17 @@ public class Transfer extends TableImpl<TransferRecord> {
     /**
      * The column <code>transfer.id</code>.
      */
-    public final TableField<TransferRecord, String> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.CHAR(32).nullable(false), this, "");
+    public final TableField<TransferRecord, String> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.CHAR(36).nullable(false), this, "");
 
     /**
      * The column <code>transfer.sender</code>.
      */
-    public final TableField<TransferRecord, String> SENDER = createField(DSL.name("sender"), org.jooq.impl.SQLDataType.CHAR(32).nullable(false), this, "");
+    public final TableField<TransferRecord, String> SENDER = createField(DSL.name("sender"), org.jooq.impl.SQLDataType.CHAR(36).nullable(false), this, "");
 
     /**
      * The column <code>transfer.receiver</code>.
      */
-    public final TableField<TransferRecord, String> RECEIVER = createField(DSL.name("receiver"), org.jooq.impl.SQLDataType.CHAR(32).nullable(false), this, "");
+    public final TableField<TransferRecord, String> RECEIVER = createField(DSL.name("receiver"), org.jooq.impl.SQLDataType.CHAR(36).nullable(false), this, "");
 
     /**
      * The column <code>transfer.amount</code>.

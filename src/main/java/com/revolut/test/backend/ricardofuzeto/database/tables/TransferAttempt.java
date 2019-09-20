@@ -17,10 +17,11 @@ import javax.annotation.processing.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row3;
+import org.jooq.Row4;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -43,7 +44,7 @@ import org.jooq.types.UInteger;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TransferAttempt extends TableImpl<TransferAttemptRecord> {
 
-    private static final long serialVersionUID = -37457906;
+    private static final long serialVersionUID = 1972182340;
 
     /**
      * The reference instance of <code>transfer_attempt</code>
@@ -61,7 +62,12 @@ public class TransferAttempt extends TableImpl<TransferAttemptRecord> {
     /**
      * The column <code>transfer_attempt.id</code>.
      */
-    public final TableField<TransferAttemptRecord, String> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.CHAR(32).nullable(false), this, "");
+    public final TableField<TransferAttemptRecord, Integer> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+
+    /**
+     * The column <code>transfer_attempt.transfer_id</code>.
+     */
+    public final TableField<TransferAttemptRecord, String> TRANSFER_ID = createField(DSL.name("transfer_id"), org.jooq.impl.SQLDataType.CHAR(36), this, "");
 
     /**
      * The column <code>transfer_attempt.date_of_transfer</code>.
@@ -113,7 +119,12 @@ public class TransferAttempt extends TableImpl<TransferAttemptRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.TRANSFER_ATTEMPT_PRIMARY);
+        return Arrays.<Index>asList(Indexes.TRANSFER_ATTEMPT_PRIMARY, Indexes.TRANSFER_ATTEMPT_TRANSFER_ID);
+    }
+
+    @Override
+    public Identity<TransferAttemptRecord, Integer> getIdentity() {
+        return Keys.IDENTITY_TRANSFER_ATTEMPT;
     }
 
     @Override
@@ -162,11 +173,11 @@ public class TransferAttempt extends TableImpl<TransferAttemptRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row3 type methods
+    // Row4 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<String, Timestamp, UInteger> fieldsRow() {
-        return (Row3) super.fieldsRow();
+    public Row4<Integer, String, Timestamp, UInteger> fieldsRow() {
+        return (Row4) super.fieldsRow();
     }
 }

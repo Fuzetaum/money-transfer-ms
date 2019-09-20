@@ -8,10 +8,11 @@ create table transfer(
     retries_left int not null);
 
 create table transfer_attempt (
-	id char(36) primary key,
+    id int primary key auto_increment,
+	transfer_id char(36),
     date_of_transfer datetime not null,
     result int unsigned not null,
-    foreign key (id) references transfer(id));
+    foreign key (transfer_id) references transfer(id));
 
 create table pending_withdraw (
     id char(36) primary key,

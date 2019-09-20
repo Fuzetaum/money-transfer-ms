@@ -16,6 +16,8 @@ In order to successfully run the web service, set the following environment vari
 
 # Technology stack
 
+[Cucumber](https://cucumber.io/docs) - end-to-end testing
+
 [Docker](https://www.docker.com/) - modeling of application as a container, composition with MySQL container
 
 [Flyway](https://flywaydb.org/) - database versioning and migration
@@ -34,6 +36,8 @@ In order to successfully run the web service, set the following environment vari
 
 [SLF4J](https://www.slf4j.org/) - information logging
 
+[WireMock](http://wiremock.org/) - stubbing for HTTP requests
+
 # Running the application
 
 ## Maven
@@ -46,9 +50,69 @@ Navigate to that folder and run the command `java -jar test.backend.ricardofuzet
 
 ## Docker
 
-> NOTE: to run the application via this method, it is needed only to configure the environment variable TRANSFER_MAX_RETRIES. You can use your Docker interface of choice.
+> NOTE: no environment variable is needed when running this way, since each one has a default value. However, you can set custom values if desired, via command line env values.
+
+>NOTE: to build the application image, you will also need Java 12 and Maven, in order to build the .jar file
 
 To run the application as a Docker container, use your Docker interface to navigate to the application folder's root, and run both commands `docker-compose build` and `docker-compose up`. These will build the needed images for the application, and start both application and MySQL images.
+
+The containerized version of this application runs a composed version, with a MySQL image. The database is already configured with a volume setting, so stored values persist between container restarts.
+
+# Features
+
+This application contains the following features:
+
+* Small set of unit tests (most of the application relies on API requests);
+* End-to-end tests for both jobs to retry transfer steps (not all cases but implement all needed resources);
+* Light (fat JAR is less than 13MB)
+* Containerized (can run in any Docker-compliant environment)
+* Standalone runnable (Java 12)
+
+# Endpoints
+
+## Response bodies
+
+For all requests that have a response body, it is expected that bodies are formatted in the following structure:
+
+```
+{
+    "developerMessage": "message for developers",
+    "userMessage": "message to be forwarded to end users, if applicable"
+}
+```
+
+## Transfer funds between accounts
+
+In order to request a transference to get done, send a `POST` to the `/transfer` resource. The body must contain the following fields (JSON formatted):
+
+```
+{
+    "sender": "sender-id",
+    "receiver": "receiver-id",
+    "amount": 12345,
+    "sendercurrency": "GBP",
+    "receivercurrency": "GBP"
+}
+```
+
+Both currencies are not effectively used now, so provide values that are equal. Also, note that both sender and receiver IDs are used to check if the accounts exist. For this, an external web service, called `Account WS`, is requested (this application is supposed to be a microservice, part of a microservice ecosystem).
+
+If the transfer can be completed promptly, an HTTP status `200` will be returned. Otherwise, the application will register which part of the transfer (withdraw first) wasn't successfully done, and will register it so its jobs can handle from this point forward.
+
+## Jobs
+
+This application defines 3 different jobs: retry withdraws, retry deposits, and refund withdraws from failed transfers. Each job is triggered by a POST request, with the following body:
+
+```
+{
+    "replicas": <amount of replicas>,
+    "instance": <replica number>
+}
+```
+
+> NOTE: each value is computed by the Kubernetes' corresponding cron job (see [assumptions](#assumptions)).
+
+The jobs endpoints are `/retry-withdraws`, `/retry-deposits` and `/refund-failed-withdraws`.
 
 # Assumptions
 

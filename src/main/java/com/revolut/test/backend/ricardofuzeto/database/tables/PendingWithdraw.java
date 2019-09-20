@@ -41,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PendingWithdraw extends TableImpl<PendingWithdrawRecord> {
 
-    private static final long serialVersionUID = -305768960;
+    private static final long serialVersionUID = 200338436;
 
     /**
      * The reference instance of <code>pending_withdraw</code>
@@ -59,7 +59,7 @@ public class PendingWithdraw extends TableImpl<PendingWithdrawRecord> {
     /**
      * The column <code>pending_withdraw.id</code>.
      */
-    public final TableField<PendingWithdrawRecord, String> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.CHAR(32).nullable(false), this, "");
+    public final TableField<PendingWithdrawRecord, String> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.CHAR(36).nullable(false), this, "");
 
     /**
      * Create a <code>pending_withdraw</code> table reference

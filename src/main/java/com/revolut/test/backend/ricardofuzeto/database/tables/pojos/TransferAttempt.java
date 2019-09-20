@@ -25,9 +25,10 @@ import org.jooq.types.UInteger;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TransferAttempt implements Serializable {
 
-    private static final long serialVersionUID = 1365737386;
+    private static final long serialVersionUID = 837301040;
 
-    private String    id;
+    private Integer   id;
+    private String    transferId;
     private Timestamp dateOfTransfer;
     private UInteger  result;
 
@@ -35,26 +36,37 @@ public class TransferAttempt implements Serializable {
 
     public TransferAttempt(TransferAttempt value) {
         this.id = value.id;
+        this.transferId = value.transferId;
         this.dateOfTransfer = value.dateOfTransfer;
         this.result = value.result;
     }
 
     public TransferAttempt(
-        String    id,
+        Integer   id,
+        String    transferId,
         Timestamp dateOfTransfer,
         UInteger  result
     ) {
         this.id = id;
+        this.transferId = transferId;
         this.dateOfTransfer = dateOfTransfer;
         this.result = result;
     }
 
-    public String getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getTransferId() {
+        return this.transferId;
+    }
+
+    public void setTransferId(String transferId) {
+        this.transferId = transferId;
     }
 
     public Timestamp getDateOfTransfer() {
@@ -78,6 +90,7 @@ public class TransferAttempt implements Serializable {
         StringBuilder sb = new StringBuilder("TransferAttempt (");
 
         sb.append(id);
+        sb.append(", ").append(transferId);
         sb.append(", ").append(dateOfTransfer);
         sb.append(", ").append(result);
 

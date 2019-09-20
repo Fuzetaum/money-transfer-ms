@@ -1,5 +1,6 @@
 package com.revolut.test.backend.ricardofuzeto.configuration;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import com.revolut.test.backend.ricardofuzeto.job.RefundFailedWithdrawJob;
 import com.revolut.test.backend.ricardofuzeto.job.RetryDepositJob;
 import com.revolut.test.backend.ricardofuzeto.job.RetryWithdrawJob;
@@ -8,8 +9,9 @@ import com.revolut.test.backend.ricardofuzeto.service.TransferService;
 
 public class EnvironmentTestUtils {
     private static boolean IS_ENVIRONMENT_LOADED = false;
+    static WireMockServer MOCK_SERVER;
 
-    public static void configure() {
+    public static void configure() throws InterruptedException {
         if (!IS_ENVIRONMENT_LOADED) {
             setDatabaseUrl();
             setDatabaseUsername();
@@ -19,10 +21,12 @@ public class EnvironmentTestUtils {
             setMaxRetries();
             Environment.loadApplicationConfiguration();
             JavalinApp.initialize();
-            TransferService.registerTransfer("/transfer");
+            TransferService.registerTransfer();
             RetryWithdrawJob.retryWithdraws();
             RetryDepositJob.retryDeposits();
             RefundFailedWithdrawJob.refundFailedWithdraws();
+            MOCK_SERVER = new WireMockServer(9090);
+            MOCK_SERVER.start();
             IS_ENVIRONMENT_LOADED = true;
         }
     }

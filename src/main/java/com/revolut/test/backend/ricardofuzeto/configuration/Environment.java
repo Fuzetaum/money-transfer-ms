@@ -31,7 +31,7 @@ public class Environment {
         ENVIRONMENT_VARIABLES.put(TRANSFER_MAX_RETRIES, System.getenv(TRANSFER_MAX_RETRIES));
     }
 
-    public static void loadApplicationConfiguration() {
+    public static void loadApplicationConfiguration() throws InterruptedException {
         FlywayConfiguration.configure();
         JooqConfiguration.configure();
         GsonConfiguration.configure();
